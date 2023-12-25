@@ -141,3 +141,4 @@ document.addEventListener('keydown', (e)=>{
 })
 
 left_btn.addEventListener("click", moveCharacterLeft);
+
