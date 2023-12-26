@@ -21,10 +21,10 @@ let OBJ_WIDTH = 100
 const ENEMY_OBJ = [block1, block2, block3]
 const GAME_SPEED = 10
 
-if (window.innerWidth < 350) {
-  VIEW_PADDING = 40
-  TWO_OBJ_GAP = 40
-  OBJ_WIDTH = 60
+if (window.innerWidth <= 500) {
+  VIEW_PADDING = 10
+  TWO_OBJ_GAP = 10
+  OBJ_WIDTH = 100
   console.log('tyhfytt');
 }
 

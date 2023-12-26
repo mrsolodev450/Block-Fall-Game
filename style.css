@@ -222,27 +222,13 @@ button:active {
   scale: .9;
 }
 
-@media only screen and (min-width: 500px) {
-  
-  .character {
-    left: 175px;
-  }
-}
-
-@media only screen and (min-width: 350px) {
-
-  .character,
-  .block1,
-  .block2,
-  .block3 {
-    width: 60px;
-  }
+@media only screen and (max-width: 500px) {
 
   .block1 {
-    left: 40px;
+    left: 10px;
   }
 
   .block3 {
-    right: 40px;
+    right: 10px;
   }
 }
