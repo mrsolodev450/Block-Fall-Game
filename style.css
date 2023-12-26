@@ -222,13 +222,3 @@ button:active {
   scale: .9;
 }
 
-@media only screen and (max-width: 500px) {
-
-  .block1 {
-    left: 10px;
-  }
-
-  .block3 {
-    right: 10px;
-  }
-}

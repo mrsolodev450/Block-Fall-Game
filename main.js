@@ -15,19 +15,18 @@ const all_btn = document.querySelectorAll("button");
 const score_board = document.getElementById("score");
 const totl_score = document.getElementById("totl_score");
 
-let VIEW_PADDING = 50
-let TWO_OBJ_GAP = 50
-let OBJ_WIDTH = 100
-const ENEMY_OBJ = [block1, block2, block3]
-const GAME_SPEED = 10
+let SCREEN_WIDTH = 500
 
-if (window.innerWidth <= 500) {
-  VIEW_PADDING = 10
-  TWO_OBJ_GAP = 10
-  OBJ_WIDTH = 100
-  console.log('tyhfytt');
+if (window.innerWidth < 500) {
+  SCREEN_WIDTH = 300
 }
 
+const VIEW_PADDING = (SCREEN_WIDTH / 100) * (SCREEN_WIDTH / 50)
+const TWO_OBJ_GAP = (SCREEN_WIDTH / 100) * (SCREEN_WIDTH / 50)
+const OBJ_WIDTH = (SCREEN_WIDTH / (SCREEN_WIDTH / 100))
+const ENEMY_OBJ = [block1, block2, block3]
+const GAME_SPEED = 10
+console.log(VIEW_PADDING);
 let score = 0;
 let i = 1;
 let count = 0
@@ -76,8 +75,11 @@ function startGame() {
 
   i = 1
   character.style.left = `${(OBJ_WIDTH + TWO_OBJ_GAP) * i + VIEW_PADDING}px`
+  block1.style.left = `${VIEW_PADDING}px`
+  block3.style.right = `${VIEW_PADDING}px`
 
   isGameOver = false
+  console.log(gameplay.getBoundingClientRect().width);
 }
 
 function backToStart() {
