@@ -222,3 +222,10 @@ button:active {
   scale: .9;
 }
 
+@media only screen and (max-width: 500px) {
+  
+  .character {
+    left: 175px;
+  }
+
+}

@@ -18,37 +18,23 @@ const totl_score = document.getElementById("totl_score");
 const VIEW_PADDING = 50
 const TWO_OBJ_GAP = 50
 const OBJ_WIDTH = 100
+const ENEMY_OBJ = [block1, block2, block3]
+const GAME_SPEED = 10
 
 let score = 0;
 let i = 1;
 let count = 0
 let isGameOver = true
-let n = Math.floor(Math.random() * 300)
+let n = Math.floor(Math.random() * (ENEMY_OBJ.length * 100))
+let n2 = Math.floor(Math.random() * (ENEMY_OBJ.length * 100))
 
 let bg_colors = ["yellow", "blue", "magenta", "red", "white"];
 
-back_btn.addEventListener("click", () => {
-  bg_cover.classList.remove("hide");
-  start_screen.classList.remove("hide");
-  end_screen.classList.add("hide");
-  gameplay.classList.add("hide");
-});
-
-play_btn.addEventListener("click", () => {
-  bg_cover.classList.add("hide");
-  start_screen.classList.add("hide");
-  end_screen.classList.add("hide");
-  gameplay.classList.remove("hide");
-  isGameOver = false
-});
-
-retry_btn.addEventListener("click", () => {
-  bg_cover.classList.add("hide");
-  start_screen.classList.add("hide");
-  end_screen.classList.add("hide");
-  gameplay.classList.remove("hide");
-  isGameOver = false
-});
+back_btn.addEventListener("click", backToStart);
+play_btn.addEventListener("click", startGame);
+retry_btn.addEventListener("click", startGame);
+right_btn.addEventListener("click", moveCharacterRight)
+left_btn.addEventListener("click", moveCharacterLeft);
 
 function main() {
  
@@ -61,12 +47,38 @@ function main() {
     checkCollision(character, block2)
     checkCollision(character, block3)
 
-    moveObj([block1, block2, block3])
+    moveObj(ENEMY_OBJ)
   }
   requestAnimationFrame(main)
 }
 
 main()
+
+function startGame() {
+  bg_cover.classList.add("hide");
+  start_screen.classList.add("hide");
+  end_screen.classList.add("hide");
+  gameplay.classList.remove("hide");
+
+  n = Math.floor(Math.random() * (ENEMY_OBJ.length * 100))
+  n2 = Math.floor(Math.random() * (ENEMY_OBJ.length * 100))
+
+  ENEMY_OBJ.forEach((obj) => {
+    obj.style.top = `-${obj.getBoundingClientRect().height}px`
+  })
+
+  i = 1
+  character.style.left = `${(OBJ_WIDTH + TWO_OBJ_GAP) * i + VIEW_PADDING}px`
+
+  isGameOver = false
+}
+
+function backToStart() {
+  bg_cover.classList.remove("hide");
+  start_screen.classList.remove("hide");
+  end_screen.classList.add("hide");
+  gameplay.classList.add("hide");
+}
 
 function countScore() {
   count++
@@ -89,7 +101,6 @@ function checkCollision(obj1, obj2) {
 
     bg_cover.classList.remove("hide");
     end_screen.classList.remove("hide");
-    gameplay.classList.add("hide");
 
     totl_score.textContent = `Total Score: ${score}`
     count = 0
@@ -103,14 +114,24 @@ function checkCollision(obj1, obj2) {
 function moveObj(obj) {
 
   let j = Math.floor(n / 100)
+  let j2 = Math.floor(n2 / 100)
+
+  if (j2 === j) n2 = Math.floor(Math.random() * (ENEMY_OBJ.length * 100))
 
   let by = obj[j].getBoundingClientRect().top
   let bh = obj[j].getBoundingClientRect().height 
+  let by2 = obj[j2].getBoundingClientRect().top
+  let bh2 = obj[j2].getBoundingClientRect().height 
 
   if (by > window.innerHeight + bh) {
     obj[j].style.top = `-${bh}px`
-    n = Math.floor(Math.random() * 300)
-  } else obj[j].style.top = `${by + 10}px`
+    n = Math.floor(Math.random() * (ENEMY_OBJ.length * 100))
+  } else obj[j].style.top = `${by + (GAME_SPEED * (j + 2))}px`
+
+  if (by2 > window.innerHeight + bh2) {
+    obj[j2].style.top = `-${bh2}px`
+    n2 = Math.floor(Math.random() * (ENEMY_OBJ.length * 100))
+  } else obj[j2].style.top = `${by2 + (GAME_SPEED * (j2 + 1))}px`
   
 }
 
@@ -130,8 +151,6 @@ function moveCharacterRight() {
   } else return
 }
 
-right_btn.addEventListener("click", moveCharacterRight)
-
 document.addEventListener('keydown', (e)=>{
   if (e.key == 'ArrowLeft') {
     moveCharacterLeft()
@@ -140,5 +159,4 @@ document.addEventListener('keydown', (e)=>{
   }
 })
 
-left_btn.addEventListener("click", moveCharacterLeft);
 
