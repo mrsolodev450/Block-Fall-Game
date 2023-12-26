@@ -227,5 +227,22 @@ button:active {
   .character {
     left: 175px;
   }
+}
 
+@media only screen and (max-width: 350px) {
+
+  .character,
+  .block1,
+  .block2,
+  .block3 {
+    width: 80px;
+  }
+
+  .block1 {
+    left: 25px;
+  }
+
+  .block3 {
+    right: 25px;
+  }
 }

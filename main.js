@@ -15,11 +15,18 @@ const all_btn = document.querySelectorAll("button");
 const score_board = document.getElementById("score");
 const totl_score = document.getElementById("totl_score");
 
-const VIEW_PADDING = 50
-const TWO_OBJ_GAP = 50
-const OBJ_WIDTH = 100
+let VIEW_PADDING = 50
+let TWO_OBJ_GAP = 50
+let OBJ_WIDTH = 100
 const ENEMY_OBJ = [block1, block2, block3]
 const GAME_SPEED = 10
+
+if (window.innerWidth < 350) {
+  VIEW_PADDING = 25
+  TWO_OBJ_GAP = 25
+  OBJ_WIDTH = 80
+  console.log('tyhfytt');
+}
 
 let score = 0;
 let i = 1;
