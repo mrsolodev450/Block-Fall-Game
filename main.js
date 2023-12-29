@@ -16,7 +16,7 @@ const score_board = document.getElementById("score");
 const totl_score = document.getElementById("totl_score");
 
 
-const VIEW_PADDING = window.innerWidth < 500 ? 10 : 50
+const VIEW_PADDING = window.innerWidth < 500 ? 20 : 50
 const TWO_OBJ_GAP = window.innerWidth < 500 ? 10 : 50
 const OBJ_WIDTH = 100
 const ENEMY_OBJ = [block1, block2, block3]
