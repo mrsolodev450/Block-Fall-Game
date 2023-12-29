@@ -15,18 +15,13 @@ const all_btn = document.querySelectorAll("button");
 const score_board = document.getElementById("score");
 const totl_score = document.getElementById("totl_score");
 
-let SCREEN_WIDTH = 500
 
-if (window.innerWidth < 500) {
-  SCREEN_WIDTH = 300
-}
-
-const VIEW_PADDING = (SCREEN_WIDTH / 100) * (SCREEN_WIDTH / 50)
-const TWO_OBJ_GAP = (SCREEN_WIDTH / 100) * (SCREEN_WIDTH / 50)
-const OBJ_WIDTH = (SCREEN_WIDTH / (SCREEN_WIDTH / 100))
+const VIEW_PADDING = window.innerWidth < 500 ? 10 : 50
+const TWO_OBJ_GAP = window.innerWidth < 500 ? 10 : 50
+const OBJ_WIDTH = 100
 const ENEMY_OBJ = [block1, block2, block3]
 const GAME_SPEED = 10
-console.log(VIEW_PADDING);
+
 let score = 0;
 let i = 1;
 let count = 0
