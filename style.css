@@ -20,20 +20,17 @@
 .gameplay {
   width: 500px;
   height: 100%;
-  background: #121212;
+  background: #020202;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  
 }
 
-.stratScreen,
+.startScreen,
 .endScreen {
-  width: 300px;
-  height: 300px;
-  background: white;
-  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  height: 100%;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -41,43 +38,39 @@
   z-index: 999;
   border-radius: 5px;
   padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: rgba(0, 0, 0, .7);
+  backdrop-filter: blur(15px);
 }
 
-.stratScreen h2,
-.endScreen h2,
-.endScreen p {
-  width: 100%;
-  height: 40px;
-  color: #050a42;
+.startScreen h2,
+.endScreen h2 {
+  color: #ededed;
   text-align: center;
   font-weight: bolder;
-  font-size: 25px;
-  text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  font-size: max(2rem,min(10vw, 7rem));
+  margin-bottom: 50px;
 }
+
+
 
 .icon {
   width: 100px;
   height: 100px;
   border-radius: 50%;
   margin: 30px 80px;
-  box-shadow: 0 0 2px 2px rgba(5, 10, 66, 0.2);
 }
 
-.endScreen p {
-  margin: 30px 0;
-  font-size: 20px;
+.endScreen pre {
+  font-size: max(16px,min(3vw,2rem));
+  color: #ededed;
 }
 
 .endScreen h2 {
-  color: darkred;
-}
-
-.bg_cover {
-  width: 100dvw;
-  height: 100dvh;
-  background: rgba(0, 0, 0, 0.2);
-  position: fixed;
-  z-index: 998;
+  color: #DB0007;
 }
 
 .hide {
@@ -87,82 +80,52 @@
 .play_btn,
 .retry_btn,
 .back_btn {
-  width: 200px;
-  height: 40px;
-  background: lightgray;
-  box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.2);
   border: none;
   outline: none;
-  border-radius: 5px;
-  font-weight: bolder;
-  font-size: 20px;
+  font-weight: 500;
+  font-size: max(16px,min(2vw,27px));
+  padding: 5px 50px;
 }
 
-.play_btn {
-  margin: 10px 30px;
-}
-
-.retry_btn {
-  margin: 10px 30px;
-}
-
-.back_btn {
-  margin: 10px 30px;
-}
-
-.top_area,
-.bottom_area {
-  width: 100%;
-  height: 50%;
+.endScreen .buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: max(5px,min(2vw,20px));
+  margin-top: 50px;
 }
 
 .character {
-  width: 100px;
-  height: 150px;
-  background: red;
+  background: crimson /*#D2122E*/;
   position: absolute;
-  left: 200px;
   bottom: 0;
 }
 
-.block1,
-.block2,
-.block3 {
-  width: 100px;
-  height: 150px;
-  background: cyan;
+.block {
+  background: #0090ff;
   position: absolute;
   top: -150px;
 }
 
-.block1 {
-  left: 50px;
-}
-
-.block2 {
-  left: 0;
-  right: 0;
-  margin-inline: auto;
-}
-
-.block3 {
-  right: 50px;
+.block, .character {
+  width: 100px;
+  height: 150px;
 }
 
 .right_btn,
 .left_btn {
   width: 50px;
   height: 50px;
-  background: lightgray;
-  box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.2);
+  background: #0a0a0a;
   border: none;
   outline: none;
-  border-radius: 5px;
+  border-radius: 50%;
   margin: 100px 30px;
   font-weight: bolder;
   font-size: 20px;
   position: fixed;
   bottom: 20px;
+  color: #ededed;
 }
 
 .left_btn {
@@ -176,42 +139,52 @@
 .score {
   width: 150px;
   height: 50px;
-  background: #3399ff;
+  background: #0090ff;
   border-radius: 5px;
-  font-weight: bolder;
+  font-weight: 500;
   font-size: 20px;
   position: fixed;
   display: flex;
   justify-content: center;
   align-items: center;
   top: 20px;
-  box-shadow: 0 0 2px 2px rgba(51, 153, 255, 0.5);
-  color: #fff;
+  color: #ededed;
   left: 20px;
 }
 
-@keyframes up_to_down {
-  from {
-    top: -150px;
-  }
-  to {
-    top: 100%;
-  }
-}
-
 button {
-  transition: background 300ms,
-    box-shadow 200ms,
-    scale 300ms,
-    color 300ms;
-}
-
-button:hover {
-  background: #3399ff;
-  color: #fff;
-  box-shadow: 0 0 4px 5px rgba(51, 153, 255, 0.5);
+  transition: background 300ms, box-shadow 200ms, scale 300ms, color 100ms;
+  background: #0090ff;
+  color: #ededed;
+  cursor: pointer;
+  border-radius: 10px;
 }
 
 button:active {
-  scale: .9;
+  scale: 0.9;
+}
+
+@media only screen and (min-width: 900px) {
+  .score {
+    top: 100px;
+    left: 100px;
+  }
+
+  .right_btn,
+  .left_btn {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+
+  .gameplay {
+    width: 100vw;
+  }
+  
+  .character, .block {
+    width: calc(100% / 5);
+    height: calc(100vw / 4.5);
+  }
+
 }
