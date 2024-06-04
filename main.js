@@ -14,7 +14,7 @@ const VIEW_PADDING = window.innerWidth < 500 ? (window.innerWidth / 7) : 50
 const TWO_OBJ_GAP = VIEW_PADDING
 const OBJ_WIDTH = window.innerWidth < 500 ? (window.innerWidth / 9) : 100
 const ENEMY_OBJ = [block1, block2, block3]
-const GAME_SPEED = 10
+const GAME_SPEED = 7
 
 const START_SCREEN_CONFIG = {
   title: 'Block Fall',
