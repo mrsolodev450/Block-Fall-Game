@@ -36,7 +36,11 @@ let count = 0
 let isGameOver = true
 let n = Math.floor(Math.random() * (ENEMY_OBJ.length * 100))
 let n2 = Math.floor(Math.random() * (ENEMY_OBJ.length * 100))
-let bg_colors = ["slateblue", "cornflowerblue", "royalblue", "#0090ff"];
+let bg_colors = ["#B8B8FF", "salmon", "#b3446c", "#f88379", "#7eb77f", "#b284be"];
+
+ENEMY_OBJ.forEach(obj => {
+  obj.style.backgroundColor = bg_colors[Math.floor(Math.random() * bg_colors.length)]
+})
 
 startScreen.show()
 
@@ -156,9 +160,9 @@ function moveCharacterRight() {
 }
 
 document.addEventListener('keydown', (e)=>{
-  if (e.key == 'ArrowLeft') {
+  if (e.key == 'ArrowLeft' || e.key == "a" || e.key == "A") {
     moveCharacterLeft()
-  } else if (e.key === 'ArrowRight') {
+  } else if (e.key === 'ArrowRight' || e.key == "d" || e.key == "Ds ") {
     moveCharacterRight()
   }
 })

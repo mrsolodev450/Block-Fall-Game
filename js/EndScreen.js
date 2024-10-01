@@ -17,11 +17,15 @@ export class EndScreen {
 
     this.backButton = document.createElement("button");
     this.backButton.setAttribute("class", "back_btn");
-    this.backButton.innerText = "Exit";
 
     this.retryButton = document.createElement("button");
     this.retryButton.setAttribute("class", "retry_btn");
-    this.retryButton.innerText = "Retry";
+
+    this.exitIcon = new Image(32, 32)
+    this.exitIcon.src = "./icons/exit.svg"
+
+    this.restartIcon = new Image(32, 32)
+    this.restartIcon.src = "./icons/replay.svg"
 
     this.backButton.onclick = () => {
       props.action[0]();
@@ -30,8 +34,9 @@ export class EndScreen {
       props.action[1]();
     };
 
+    this.retryButton.append(this.restartIcon, "Retry")
+    this.backButton.append(this.exitIcon, "Exit")
     this.buttons.append(this.backButton, this.retryButton);
-
     this.screen.append(this.title, this.score, this.buttons);
   }
 
