@@ -1,171 +1,190 @@
-import { EndScreen } from "./js/EndScreen.js";
-import { StartScreen } from "./js/StartScreen.js";
+import { checkCollision } from "./js/collision.js";
 
-const gameplay = document.getElementById("gameplay");
-const block1 = document.getElementById("block-1");
-const block2 = document.getElementById("block-2");
-const block3 = document.getElementById("block-3");
+const playGround = document.getElementById("play-ground");
+const gameMenu = document.getElementById("start-screen")
+const endGameMenu = document.getElementById("end-screen")
+const enemyLeft = document.getElementById("block-left");
+const enemyMid = document.getElementById("block-mid");
+const enemyRight = document.getElementById("block-right");
 const character = document.getElementById("character");
-const score_board = document.getElementById("score");
-const left_btn = document.getElementById("left_btn")
-const right_btn = document.getElementById("right_btn")
+const gameResult = document.getElementById("game-result");
+const scoreBoard = document.getElementById("score");
+const leftBtn = document.getElementById("left-btn")
+const rightBtn = document.getElementById("right-btn")
+const playBtn = document.getElementById("play-btn")
+const retryBtn = document.getElementById("retry-btn")
+const quitBtn = document.getElementById("quit-btn")
+const resetBtn = document.getElementById("reset-btn")
+const optBtn = document.getElementById("opt-btn")
+const gameSpeedSlider = document.getElementById("speed-slider") 
+const gameSpeedSliderTxt = document.getElementById("speed-slider-value")
+const gameSettingsMenu = document.getElementById("game-setting")
+const closeSettingsMenuButton = document.getElementById("back-btn")
 
-const VIEW_PADDING = window.innerWidth < 500 ? (window.innerWidth / 7) : 50
-const TWO_OBJ_GAP = VIEW_PADDING
-const OBJ_WIDTH = window.innerWidth < 500 ? (window.innerWidth / 9) : 100
-const ENEMY_OBJ = [block1, block2, block3]
-const GAME_SPEED = 7
+const viewPadding = window.innerWidth < 500 ? (window.innerWidth / 7) : 50
+const blockWidth = window.innerWidth < 500 ? (window.innerWidth / 9) : 100
 
-const START_SCREEN_CONFIG = {
-  title: 'Block Fall',
-  action: [startGame]
+const blockGap = viewPadding
+const enemyArr = [enemyLeft, enemyMid, enemyRight]
+
+const DEFUALT_GAME_CONFING = {
+  GAME_SPEED: 8
 }
 
-const END_SCREEN_CONFIG = {
-  title: 'Game Over',
-  action: [backToStart, startGame]
-}
-
-const startScreen = new StartScreen(START_SCREEN_CONFIG)
-const endScreen = new EndScreen(END_SCREEN_CONFIG)
-
-
+let gameSpeed = DEFUALT_GAME_CONFING.GAME_SPEED
 let score = 0;
-let i = 1;
+let blockPosIndex = 1;
 let count = 0
 let isGameOver = true
-let n = Math.floor(Math.random() * (ENEMY_OBJ.length * 100))
-let n2 = Math.floor(Math.random() * (ENEMY_OBJ.length * 100))
-let bg_colors = ["#B8B8FF", "salmon", "#b3446c", "#f88379", "#7eb77f", "#b284be"];
+let chanceForBlockA = Math.floor(Math.random() * (enemyArr.length * 100))
+let chanceForBlockB = Math.floor(Math.random() * (enemyArr.length * 100))
+let colors = ["#B8B8FF", "salmon", "#b3446c", "#f88379", "#7eb77f", "#b284be"];
 
-ENEMY_OBJ.forEach(obj => {
-  obj.style.backgroundColor = bg_colors[Math.floor(Math.random() * bg_colors.length)]
+enemyArr.forEach(obj => {
+  obj.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]
 })
 
-startScreen.show()
 
 function main() {
  
   if (!isGameOver) {
-    score_board.textContent = `Score: ${score}`;
-    countScore()
-    checkCollision(character, block1)
-    checkCollision(character, block2)
-    checkCollision(character, block3)
-    moveObj(ENEMY_OBJ)
+    scoreBoard.textContent = `Score: ${score}`;
+    
+    moveEnemy(enemyArr)
+
+    if (checkCollision(character, enemyLeft) || checkCollision(character, enemyMid) || checkCollision(character, enemyRight)) {
+      gameResult.textContent = `Your Total Score :  ${score}`
+      showElement(endGameMenu)
+      count = 0
+      score = 0
+    
+      isGameOver = true
+    }
+
   }
   
   requestAnimationFrame(main)
 }
 
+showElement(gameMenu)
 main()
 
 function startGame() {
-  startScreen.hide()
-  endScreen.hide()
-  
-  gameplay.classList.remove("hide");
+  hideElement(gameMenu)
+  hideElement(endGameMenu)
+  showElement(playGround)
 
-  n = Math.floor(Math.random() * (ENEMY_OBJ.length * 100))
-  n2 = Math.floor(Math.random() * (ENEMY_OBJ.length * 100))
+  chanceForBlockA = Math.floor(Math.random() * (enemyArr.length * 100))
+  chanceForBlockB = Math.floor(Math.random() * (enemyArr.length * 100))
 
-  ENEMY_OBJ.forEach((obj) => {
+  enemyArr.forEach((obj) => {
     obj.style.top = `-${obj.getBoundingClientRect().height}px`
   })
 
-  i = 1
-  character.style.left = `${(OBJ_WIDTH + TWO_OBJ_GAP) * i + VIEW_PADDING}px`
-  block1.style.left = `${VIEW_PADDING}px`
-  block3.style.right = `${VIEW_PADDING}px`
+  blockPosIndex = 1
+  character.style.left = `${(blockWidth + blockGap) * blockPosIndex + viewPadding}px`
+  enemyLeft.style.left = `${viewPadding}px`
+  enemyRight.style.right = `${viewPadding}px`
 
   isGameOver = false
-  console.log(gameplay.getBoundingClientRect().width);
 }
 
 function backToStart() {
-  startScreen.show()
-  endScreen.hide()
-  gameplay.classList.add("hide");
+  showElement(gameMenu)
+  hideElement(endGameMenu)
+  hideElement(playGround)
 }
 
-function countScore() {
-  count++
-  score = Math.floor(count / 10)
+function openSettings() {
+  gameSettingsMenu.style.display = "flex"
 }
 
-function checkCollision(obj1, obj2) {
-
-  const x = obj1.getBoundingClientRect().left
-  const y = obj1.getBoundingClientRect().top
-  const bx = obj2.getBoundingClientRect().left
-  const by = obj2.getBoundingClientRect().top
-  const bh = obj2.getBoundingClientRect().height
-  const bw = obj2.getBoundingClientRect().width
-  const xh = obj1.getBoundingClientRect().height
-  const xw = obj1.getBoundingClientRect().width
-  
-
-  if (x + xw  >= bx && x <= bx + bw && y + xh >= by && y <= by + bh) {
-
-    endScreen.setScore(score)
-    endScreen.show()
-    count = 0
-    
-    isGameOver = true
-    
-  }
-
+function closeSettings() {
+  gameSettingsMenu.style.display = "none"
 }
 
-function moveObj(obj) {
+function moveEnemy(arr) {
 
-  let j = Math.floor(n / 100)
-  let j2 = Math.floor(n2 / 100)
+  let BAI = Math.floor(chanceForBlockA / 100)
+  let BBI = Math.floor(chanceForBlockB / 100)
 
-  if (j2 === j) n2 = Math.floor(Math.random() * (ENEMY_OBJ.length * 100))
+  if (BBI === BAI) chanceForBlockB = Math.floor(Math.random() * (enemyArr.length * 100))
 
-  let by = obj[j].getBoundingClientRect().top
-  let bh = obj[j].getBoundingClientRect().height 
-  let by2 = obj[j2].getBoundingClientRect().top
-  let bh2 = obj[j2].getBoundingClientRect().height 
+  let by = arr[BAI].getBoundingClientRect().top
+  let bh = arr[BAI].getBoundingClientRect().height 
+  let by2 = arr[BBI].getBoundingClientRect().top
+  let bh2 = arr[BBI].getBoundingClientRect().height 
 
-  if (by > window.innerHeight + bh) {
-    obj[j].style.top = `-${bh}px`
-    obj[j].style.backgroundColor = bg_colors[Math.floor(Math.random() * bg_colors.length)]
-    n = Math.floor(Math.random() * (ENEMY_OBJ.length * 100))
-  } else obj[j].style.top = `${by + (GAME_SPEED * (j + 2))}px`
+  if (by > window.innerHeight + bh * 2) {
+    arr[BAI].style.top = `-${bh}px`
+    arr[BAI].style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]
+    chanceForBlockA = Math.floor(Math.random() * (enemyArr.length * 100))
+    score += 1
+  } else arr[BAI].style.top = `${by + (gameSpeed * (BAI + 2))}px`
 
-  if (by2 > window.innerHeight + bh2) {
-    obj[j2].style.top = `-${bh2}px`
-    obj[j2].style.backgroundColor = bg_colors[Math.floor(Math.random() * bg_colors.length)]
-    n2 = Math.floor(Math.random() * (ENEMY_OBJ.length * 100))
-  } else obj[j2].style.top = `${by2 + (GAME_SPEED * (j2 + 1))}px`
+  if (by2 > window.innerHeight + bh2 * 2) {
+    arr[BBI].style.top = `-${bh2}px`
+    arr[BBI].style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]
+    chanceForBlockB = Math.floor(Math.random() * (enemyArr.length * 100))
+    score += 1
+  } else arr[BBI].style.top = `${by2 + (gameSpeed * (BBI + 1))}px`
   
 }
 
 function moveCharacterLeft() {
-  if (i > 0 && !isGameOver) {
-    i -= 1
-    character.style.left = `${(OBJ_WIDTH + TWO_OBJ_GAP) * i + VIEW_PADDING}px`;
+  if (blockPosIndex > 0 && !isGameOver) {
+    blockPosIndex -= 1
+    character.style.left = `${(blockWidth + blockGap) * blockPosIndex + viewPadding}px`;
     
   } else return
 }
 
 function moveCharacterRight() {
-  if (i < 2 && !isGameOver) {
-    i += 1
-    character.style.left = `${(OBJ_WIDTH + TWO_OBJ_GAP) * i + VIEW_PADDING}px`;
+  if (blockPosIndex < 2 && !isGameOver) {
+    blockPosIndex += 1
+    character.style.left = `${(blockWidth + blockGap) * blockPosIndex + viewPadding}px`;
     
   } else return
+}
+
+function showElement(element) {
+  element.classList.remove("hide")
+}
+
+function hideElement(element) {
+  element.classList.add("hide")
+}
+
+function resetSettings() {
+  modifyGameSpeed(DEFUALT_GAME_CONFING.GAME_SPEED)
+}
+
+function modifyGameSpeed(value) {
+
+  if (value < 10)
+      value = `0${value}`
+
+  gameSpeedSliderTxt.innerText = value
+  gameSpeed = value
+  gameSpeedSlider.value = value
 }
 
 document.addEventListener('keydown', (e)=>{
   if (e.key == 'ArrowLeft' || e.key == "a" || e.key == "A") {
     moveCharacterLeft()
-  } else if (e.key === 'ArrowRight' || e.key == "d" || e.key == "Ds ") {
+  } else if (e.key === 'ArrowRight' || e.key == "d" || e.key == "D ") {
     moveCharacterRight()
   }
 })
 
-left_btn.addEventListener('click', moveCharacterLeft)
-right_btn.addEventListener('click', moveCharacterRight)
+playBtn.addEventListener('click', startGame)
+retryBtn.addEventListener('click', startGame)
+resetBtn.addEventListener('click', resetSettings)
+quitBtn.addEventListener('click', backToStart)
+optBtn.addEventListener('click', openSettings)
+leftBtn.addEventListener('click', moveCharacterLeft)
+rightBtn.addEventListener('click', moveCharacterRight)
+closeSettingsMenuButton.addEventListener("click", closeSettings)
+gameSpeedSlider.addEventListener("input", (e) => {
+  modifyGameSpeed(e.target.value)
+})

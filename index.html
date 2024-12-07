@@ -11,25 +11,83 @@
     <link rel="stylesheet" href="style.css" />
     <link rel="icon" href="media/ic-trans.png" />
     <script src="https://kit.fontawesome.com/b80e7d170d.js" crossorigin="anonymous"></script>
+    <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css"
+/>
+  
+
   </head>
 
   <body>
     <div class="screen" id="screen">
       
-      <div class="gameplay hide" id="gameplay">
+      <div class="play-ground hide" id="play-ground">
 
-        <div class="block" id="block-1"></div>
-        <div class="block" id="block-2"></div>
-        <div class="block" id="block-3"></div>
+        <div class="block" id="block-left"></div>
+        <div class="block" id="block-mid"></div>
+        <div class="block" id="block-right"></div>
 
         <p id="score" class="score">Score : 0</p>
         <div class="character" id="character"></div>
-        <button class="left_btn" id="left_btn">
-          <img src="/icons/arrow-left.svg" alt="">
+        <button class="left-btn" id="left-btn">
+          <i class="iconoir-arrow-left"></i>
         </button>
-        <button class="right_btn" id="right_btn">
-          <img src="/icons/arrow-right.svg" alt="">
+        <button class="right-btn" id="right-btn">
+          <i class="iconoir-arrow-right"></i>
         </button>
+      </div>
+      
+      <div class="start-screen hide" id="start-screen">
+          <h2 class="game-title">Block Fall</h2>
+
+          <div class="buttons">
+            <button class="play-btn" id="play-btn">
+              <i class="iconoir-play"></i>
+              <span>Play</span>
+            </button>
+            <button class="opt-btn" id="opt-btn">
+              <i class="iconoir-settings"></i>
+              <span>Config</span>
+            </button>
+          </div>
+
+      </div>
+
+      <div class="end-screen hide" id="end-screen">
+        <h2 class="game-title">Game Over!</h2>
+        <pre class="game-result" id="game-result">Your Total Score :  00</pre>
+        <div class="buttons">
+          <button class="quit-btn" id="quit-btn">
+            <i class="iconoir-arrow-left"></i>
+            <span>Quit</span>
+          </button>
+          <button class="retry-btn" id="retry-btn">
+            <i class="iconoir-refresh"></i>
+            <span>Retry</span>
+          </button>
+        </div>
+
+    </div>
+
+      <div class="game-setting" id="game-setting">
+          <div class="main-box">
+            <div class="slider-box">
+              <p class="slider-name">GAME SPEED : <span id="speed-slider-value">08</span></p>
+              <input type="range" id="speed-slider" min="5" max="20" value="8" class="slider">
+            </div>
+
+            <div class="buttons">
+              <button class="back-btn" id="back-btn">
+                <i class="iconoir-arrow-left"></i>
+                <span>Back</span>
+              </button>
+              <button class="reset-btn" id="reset-btn">
+                <i class="iconoir-refresh"></i>
+                <span>Reset</span>
+              </button>
+            </div>
+          </div>
       </div>
 
     <script type="module" src="main.js"></script>
