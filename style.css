@@ -60,7 +60,7 @@ i {
   color: #ededed;
   text-align: center;
   font-weight: bolder;
-  font-size: max(2rem,min(10vw, 7rem));
+  font-size: max(3.5rem,min(10vw, 7rem));
   margin-bottom: 50px;
 }
 
